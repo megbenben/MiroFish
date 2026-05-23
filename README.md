@@ -91,6 +91,47 @@ Click the image to watch MiroFish's deep prediction of the lost ending based on 
 4. **Report Generation**: ReportAgent with rich toolset for deep interaction with post-simulation environment
 5. **Deep Interaction**: Chat with any agent in the simulated world & Interact with ReportAgent
 
+## 📖 Usage Guide
+
+### Step 1 — Create Project
+Open http://localhost:3000, enter a project name (e.g., "EV Price War Analysis"), and upload documents (PDF/Markdown/TXT) or paste text directly.
+
+### Step 2 — Generate Ontology
+The system uses DeepSeek to automatically analyze documents and generate entity types (Person, Organization, Event, Concept, etc.) and relationship types (makes statement, competes with, influences, etc.). You can review and adjust before confirming.
+
+### Step 3 — Build Knowledge Graph
+- Documents are automatically chunked and sent to DeepSeek for entity/relation extraction
+- Results are stored in a local SQLite database (`backend/uploads/graphs.db`)
+- Browse extracted nodes (entities) and edges (relationships) in the UI
+
+### Step 4 — Run Simulation
+- Virtual agents are generated from knowledge graph entities
+- Configure simulation parameters (platforms, rounds, timeline)
+- Agents autonomously interact on simulated Twitter/Reddit platforms
+- Agent actions are written back to the knowledge graph as temporal memory
+
+### Step 5 — Generate Report
+- Report Agent retrieves information from the knowledge graph
+- Automatically generates analysis reports (trends, opinion distribution, key events)
+- Chat with any agent or the Report Agent for deep interaction
+
+### Data Storage
+
+| Data | Location |
+|------|----------|
+| Knowledge Graph | `backend/uploads/graphs.db` |
+| Uploaded Files | `backend/uploads/` |
+| Simulation Data | `backend/uploads/simulations/` |
+
+### Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| DeepSeek quota exhausted | Switch to another OpenAI-compatible API by changing `LLM_BASE_URL` and `LLM_MODEL_NAME` in `.env` |
+| Poor extraction quality | Refine entity/relation types during ontology generation |
+| Simulation too slow | Reduce `OASIS_DEFAULT_MAX_ROUNDS` in `.env` (default: 10) |
+| Reset graph | Delete the project and rebuild, or remove `backend/uploads/graphs.db` |
+
 ## 🚀 Quick Start
 
 ### Option 1: Source Code Deployment (Recommended)
@@ -115,17 +156,22 @@ cp .env.example .env
 **Required Environment Variables:**
 
 ```env
-# LLM API Configuration (supports any LLM API with OpenAI SDK format)
-# Recommended: Alibaba Qwen-plus model via Bailian Platform: https://bailian.console.aliyun.com/
-# High consumption, try simulations with fewer than 40 rounds first
-LLM_API_KEY=your_api_key
-LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-LLM_MODEL_NAME=qwen-plus
+# LLM API Configuration (supports any OpenAI SDK-compatible API)
+# Default: DeepSeek API — get your key at https://platform.deepseek.com/
+LLM_API_KEY=sk-your_deepseek_api_key
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL_NAME=deepseek-chat
 
-# Zep Cloud Configuration
-# Free monthly quota is sufficient for simple usage: https://app.getzep.com/
-ZEP_API_KEY=your_zep_api_key
+# Alternative: Kimi (Moonshot) API
+# LLM_BASE_URL=https://api.moonshot.cn/v1
+# LLM_MODEL_NAME=moonshot-v1-8k
+
+# Alternative: Alibaba Qwen
+# LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+# LLM_MODEL_NAME=qwen-plus
 ```
+
+> **No Zep Cloud required!** Knowledge graph extraction is now powered by DeepSeek LLM with local SQLite storage — zero external graph database dependency.
 
 #### 2. Install Dependencies
 
