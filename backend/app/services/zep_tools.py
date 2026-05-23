@@ -1,5 +1,5 @@
 """
-Zep检索工具服务
+图谱检索工具服务
 封装图谱搜索、节点读取、边查询等工具，供Report Agent使用
 
 核心检索工具（优化后）：
@@ -13,7 +13,7 @@ import json
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 
-from zep_cloud.client import Zep
+from ..utils.local_graph_client import LocalGraphClient
 
 from ..config import Config
 from ..utils.logger import get_logger
@@ -427,7 +427,7 @@ class ZepToolsService:
         if not self.api_key:
             raise ValueError("ZEP_API_KEY 未配置")
         
-        self.client = Zep(api_key=self.api_key)
+        self.client = LocalGraphClient(api_key=self.api_key)
         # LLM客户端用于InsightForge生成子问题
         self._llm_client = llm_client
         logger.info(t("console.zepToolsInitialized"))

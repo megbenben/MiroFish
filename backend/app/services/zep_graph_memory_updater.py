@@ -1,6 +1,6 @@
 """
-Zep图谱记忆更新服务
-将模拟中的Agent活动动态更新到Zep图谱中
+图谱记忆更新服务
+将模拟中的Agent活动动态更新到本地图谱中
 """
 
 import os
@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from queue import Queue, Empty
 
-from zep_cloud.client import Zep
+from ..utils.local_graph_client import LocalGraphClient
 
 from ..config import Config
 from ..utils.logger import get_logger
@@ -243,7 +243,7 @@ class ZepGraphMemoryUpdater:
         if not self.api_key:
             raise ValueError("ZEP_API_KEY未配置")
         
-        self.client = Zep(api_key=self.api_key)
+        self.client = LocalGraphClient(api_key=self.api_key)
         
         # 活动队列
         self._activity_queue: Queue = Queue()

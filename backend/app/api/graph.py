@@ -285,8 +285,8 @@ def build_graph():
         
         # 检查配置
         errors = []
-        if not Config.ZEP_API_KEY:
-            errors.append(t('api.zepApiKeyMissing'))
+        if not Config.LLM_API_KEY:
+            errors.append(t('api.llmApiKeyMissing'))
         if errors:
             logger.error(f"配置错误: {errors}")
             return jsonify({
