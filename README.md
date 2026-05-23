@@ -4,7 +4,7 @@
 
 <a href="https://trendshift.io/repositories/16144" target="_blank"><img src="https://trendshift.io/api/badge/repositories/16144" alt="666ghj%2FMiroFish | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-简洁通用的群体智能引擎，预测万物
+简洁通用的群体智能引擎，预测万物--本git已用Deepseek全部重写并使用Deepseek API,并不再使用Zep
 </br>
 <em>A Simple and Universal Swarm Intelligence Engine, Predicting Anything</em>
 
